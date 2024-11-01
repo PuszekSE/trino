@@ -34,6 +34,7 @@ import io.trino.spi.metrics.Metrics;
 import io.trino.spi.resourcegroups.QueryType;
 import io.trino.spi.resourcegroups.ResourceGroupId;
 import io.trino.spi.session.ResourceEstimates;
+import org.joda.time.DateTime;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -377,6 +378,7 @@ final class TestMysqlEventListener
     void testFull()
             throws SQLException
     {
+        long testTime = DateTime.now().getMillis();
         eventListener.queryCompleted(FULL_QUERY_COMPLETED_EVENT);
 
         try (Connection connection = DriverManager.getConnection(mysqlContainerUrl)) {
@@ -452,6 +454,7 @@ final class TestMysqlEventListener
                     assertThat(resultSet.getLong("completed_splits")).isEqualTo(130);
                     assertThat(resultSet.getString("retry_policy")).isEqualTo("TASK");
                     assertThat(resultSet.getString("operator_summaries_json")).isEqualTo("[{operator: \"operator1\"},{operator: \"operator2\"}]");
+                    assertThat(resultSet.getLong("event_timestamp")).isGreaterThanOrEqualTo(testTime);
                     assertThat(resultSet.next()).isFalse();
                 }
             }

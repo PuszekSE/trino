@@ -87,6 +87,7 @@ public interface QueryDao
             "  completed_splits BIGINT NOT NULL,\n" +
             "  retry_policy VARCHAR(255) NOT NULL,\n" +
             "  operator_summaries_json MEDIUMTEXT NOT NULL\n" +
+            "  event_timestamp BIGINT NOT NULL,\n" +
             ")\n" +
             "DEFAULT CHARACTER SET utf8")
     void createTable();
@@ -159,7 +160,8 @@ public interface QueryDao
             "  failed_cumulative_memory,\n" +
             "  completed_splits,\n" +
             "  retry_policy,\n" +
-            "  operator_summaries_json\n" +
+            "  operator_summaries_json,\n" +
+            "  event_timestamp\n" +
             ")\n" +
             "VALUES (\n" +
             " :queryId,\n" +
@@ -229,7 +231,8 @@ public interface QueryDao
             " :failedCumulativeMemory,\n" +
             " :completedSplits,\n" +
             " :retryPolicy,\n" +
-            " :operatorSummariesJson\n" +
+            " :operatorSummariesJson,\n" +
+            " :eventTimestamp\n" +
             ")")
     void store(@BindBean QueryEntity entity);
 }

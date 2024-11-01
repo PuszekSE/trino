@@ -102,6 +102,7 @@ public class QueryEntity
 
     private final String retryPolicy;
     private final Optional<String> operatorSummariesJson;
+    private final long eventTimestamp;
 
     public QueryEntity(
             String queryId,
@@ -171,7 +172,8 @@ public class QueryEntity
             double failedCumulativeMemory,
             int completedSplits,
             String retryPolicy,
-            Optional<String> operatorSummariesJson)
+            Optional<String> operatorSummariesJson,
+            long eventTimestamp)
     {
         this.queryId = requireNonNull(queryId, "queryId is null");
         this.transactionId = requireNonNull(transactionId, "transactionId is null");
@@ -241,6 +243,7 @@ public class QueryEntity
         this.completedSplits = completedSplits;
         this.retryPolicy = requireNonNull(retryPolicy, "retryPolicy is null");
         this.operatorSummariesJson = requireNonNull(operatorSummariesJson, "operatorSummariesJson is null");
+        this.eventTimestamp = requireNonNull(eventTimestamp, "eventTimestamp is null");
     }
 
     public String getQueryId()
@@ -581,5 +584,9 @@ public class QueryEntity
     public Optional<String> getOperatorSummariesJson()
     {
         return operatorSummariesJson;
+    }
+
+    public long getEventTimestamp() {
+        return eventTimestamp;
     }
 }

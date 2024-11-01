@@ -33,6 +33,7 @@ import io.trino.spi.eventlistener.SplitCompletedEvent;
 import io.trino.spi.resourcegroups.QueryType;
 import io.trino.spi.resourcegroups.ResourceGroupId;
 import jakarta.annotation.PostConstruct;
+import org.joda.time.DateTime;
 
 import java.time.Duration;
 import java.util.List;
@@ -160,7 +161,8 @@ public class MysqlEventListener
                 stats.getFailedCumulativeMemory(),
                 stats.getCompletedSplits(),
                 context.getRetryPolicy(),
-                createOperatorSummariesJson(metadata.getQueryId(), stats.getOperatorSummaries()));
+                createOperatorSummariesJson(metadata.getQueryId(), stats.getOperatorSummaries()),
+                DateTime.now().getMillis());
         dao.store(entity);
     }
 
